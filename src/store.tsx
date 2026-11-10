@@ -1,11 +1,24 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import type { ActiveWorkout, AppData, Exercise, Routine, Settings, Workout } from './types';
+import type { ActiveWorkout, AppData, Exercise, Routine, Settings, ThemePref, Workout } from './types';
 import { BUILTIN_EXERCISES } from './exercises';
 import { defaultWorkoutName, uid } from './utils';
 
 const KEY = 'liftlog:v1';
 
-const defaultSettings: Settings = { unit: 'kg', defaultRest: 90, sound: true };
+const defaultSettings: Settings = { unit: 'kg', defaultRest: 90, sound: true, theme: 'system' };
+
+const THEME_COLORS = { dark: '#131411', light: '#f3f3ee' };
+
+/** Resolve "system" to the OS preference. */
+export const effectiveTheme = (pref: ThemePref): 'light' | 'dark' =>
+  pref === 'system' ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') : pref;
+
+function applyTheme(pref: ThemePref) {
+  const root = document.documentElement;
+  if (pref === 'system') root.removeAttribute('data-theme');
+  else root.setAttribute('data-theme', pref);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[effectiveTheme(pref)]);
+}
 
 export const emptyData = (): AppData => ({
   version: 1,
@@ -51,6 +64,17 @@ const Ctx = createContext<StoreCtx | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<AppData>(load);
+
+  const themePref = data.settings.theme;
+  useEffect(() => {
+    applyTheme(themePref);
+    if (themePref !== 'system') return;
+    // Follow OS changes live while on "system".
+    const mq = window.matchMedia('(prefers-color-scheme: light)');
+    const onChange = () => applyTheme('system');
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [themePref]);
 
   useEffect(() => {
     try {

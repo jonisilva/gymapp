@@ -4,6 +4,7 @@ import type { Routine } from '../types';
 import { exerciseLabel } from '../exercises';
 import { fmtClock, fmtDate, fmtDuration, fmtVolume, uid, weekStart, workoutVolume } from '../utils';
 import { Empty, Menu, nav, useNow } from '../components/ui';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export function useStartWorkout() {
   const { data, update } = useStore();
@@ -35,6 +36,7 @@ export default function Home() {
     <div className="page">
       <header className="page-head">
         <h1>Workout</h1>
+        <ThemeToggle />
       </header>
 
       {data.active ? (

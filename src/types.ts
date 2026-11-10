@@ -1,4 +1,5 @@
 export type Unit = 'kg' | 'lb';
+export type ThemePref = 'system' | 'light' | 'dark';
 export type SetType = 'normal' | 'warmup' | 'drop' | 'failure';
 export type ExerciseKind = 'weighted' | 'bodyweight' | 'duration';
 
@@ -71,6 +72,7 @@ export interface Settings {
   unit: Unit;
   defaultRest: number;
   sound: boolean;
+  theme: ThemePref;
 }
 
 export interface AppData {

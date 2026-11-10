@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { emptyData, normalizeData, useStore } from '../store';
 import { weeklyCounts, weekStreak } from '../stats';
-import type { Unit } from '../types';
+import type { ThemePref, Unit } from '../types';
 import {
   downloadFile,
   fmtDuration,
@@ -18,6 +18,7 @@ import {
 import { BarChart, LineChart } from '../components/Charts';
 import { NumInput, Stat } from '../components/ui';
 import { importPlanCsv } from '../importPlan';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function Profile() {
   const { data, update, replaceAll, history, exMap, exercises } = useStore();
@@ -131,6 +132,7 @@ export default function Profile() {
     <div className="page">
       <header className="page-head">
         <h1>Profile</h1>
+        <ThemeToggle />
       </header>
 
       <div className="stats">
@@ -207,6 +209,26 @@ export default function Profile() {
 
       <div className="card">
         <h3>Settings</h3>
+        <div className="field">
+          <span>Appearance</span>
+          <div className="seg">
+            {(
+              [
+                ['system', 'System'],
+                ['light', 'Light'],
+                ['dark', 'Dark'],
+              ] as [ThemePref, string][]
+            ).map(([t, label]) => (
+              <button
+                key={t}
+                className={data.settings.theme === t ? 'on' : ''}
+                onClick={() => update((d) => void (d.settings.theme = t))}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="field">
           <span>Units</span>
           <div className="seg">

@@ -4,6 +4,7 @@ import { computePRs } from '../stats';
 import { exerciseLabel } from '../exercises';
 import { fmtDate, fmtDuration, fmtTime, fmtVolume, workoutVolume } from '../utils';
 import { Empty, nav } from '../components/ui';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function History() {
   const { history, exMap, data } = useStore();
@@ -23,6 +24,7 @@ export default function History() {
     <div className="page">
       <header className="page-head">
         <h1>History</h1>
+        <ThemeToggle />
       </header>
       {!history.length && (
         <Empty

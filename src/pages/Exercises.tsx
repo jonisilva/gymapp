@@ -3,6 +3,7 @@ import { useStore } from '../store';
 import { exerciseLabel } from '../exercises';
 import { ExerciseForm, FilterBar, useExerciseFilter } from '../components/ExercisePicker';
 import { nav } from '../components/ui';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function Exercises() {
   const { exercises, history } = useStore();
@@ -22,9 +23,12 @@ export default function Exercises() {
     <div className="page">
       <header className="page-head">
         <h1>Exercises</h1>
-        <button className="btn small ghost" onClick={() => setCreating(true)}>
-          + Custom
-        </button>
+        <div className="head-actions">
+          <button className="btn small ghost" onClick={() => setCreating(true)}>
+            + Custom
+          </button>
+          <ThemeToggle />
+        </div>
       </header>
       <FilterBar {...f} />
       <label className="toggle-line">
