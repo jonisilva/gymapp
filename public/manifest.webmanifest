@@ -1,9 +1,9 @@
 {
   "name": "Liftlog",
   "short_name": "Liftlog",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#131411",
   "theme_color": "#131411",
-  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
 }
