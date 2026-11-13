@@ -222,8 +222,15 @@ button.card:hover { border-color: color-mix(in srgb, var(--accent-ink) 45%, var(
 .notes { resize: vertical; width: 100%; min-height: 40px; }
 .ex-name { color: var(--text); font-weight: 750; font-size: 16.5px; text-align: left; }
 .ex-name:hover { color: var(--accent-ink); }
-.ex-notes { background: transparent; padding: 2px 0; border-radius: 0; font-size: 14px; }
-.ex-notes:focus { border-color: transparent; border-bottom-color: var(--accent-ink); }
+/* Exercise notes: multi-line, grows with content, scrolls past a cap */
+.ex-notes, .routine-notes {
+  display: block; width: 100%; font: inherit; font-size: 14px; line-height: 1.45;
+  min-height: calc(3 * 1.45em + 16px); max-height: calc(8 * 1.45em + 16px); overflow-y: auto;
+  resize: vertical; field-sizing: content; white-space: pre-wrap; overflow-wrap: anywhere;
+  -webkit-overflow-scrolling: touch;
+}
+.ex-notes { background: var(--surface-2); padding: 8px 10px; border-radius: 10px; color: var(--text); }
+.ex-notes:focus { border-color: var(--accent-ink); }
 .rest-select { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
 .rest-select select { background: transparent; color: var(--accent-ink); padding: 2px 4px; font-weight: 600; font-size: 13px; }
 
@@ -272,7 +279,6 @@ button.card:hover { border-color: color-mix(in srgb, var(--accent-ink) 45%, var(
 
 .routine-fields { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; }
 .routine-fields input, .routine-fields select { width: 100%; }
-.routine-notes { width: 100%; font-size: 14px; }
 
 /* Charts */
 .chart { width: 100%; position: relative; }

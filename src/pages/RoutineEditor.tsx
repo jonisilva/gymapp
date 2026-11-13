@@ -88,8 +88,9 @@ export default function RoutineEditor({ id }: { id: string }) {
                 </select>
               </label>
             </div>
-            <input
+            <textarea
               className="routine-notes"
+              rows={3}
               placeholder="Notes (cues, alternatives…)"
               value={re.notes ?? ''}
               onChange={(e) => edit((x) => void (x.exercises[i].notes = e.target.value))}

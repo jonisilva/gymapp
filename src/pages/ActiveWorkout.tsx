@@ -193,8 +193,9 @@ export default function ActiveWorkout() {
                 ]}
               />
             </div>
-            <input
+            <textarea
               className="ex-notes"
+              rows={3}
               placeholder="Add notes"
               value={ex.notes}
               onChange={(e) =>
