@@ -5,6 +5,7 @@ import { exerciseLabel } from '../exercises';
 import { fmtRest, REST_OPTIONS, uid } from '../utils';
 import { nav, NumInput } from '../components/ui';
 import { ExercisePicker } from '../components/ExercisePicker';
+import { ExerciseInfo, InfoButton } from '../components/ExerciseInfo';
 
 export default function RoutineEditor({ id }: { id: string }) {
   const { data, update, exMap } = useStore();
@@ -13,6 +14,7 @@ export default function RoutineEditor({ id }: { id: string }) {
     existing ? structuredClone(existing) : { id: uid(), name: '', exercises: [] },
   );
   const [picking, setPicking] = useState(false);
+  const [infoIdx, setInfoIdx] = useState<number | null>(null);
 
   const edit = (fn: (r: Routine) => void) =>
     setR((prev) => {
@@ -56,7 +58,10 @@ export default function RoutineEditor({ id }: { id: string }) {
         return (
           <div className="card" key={i}>
             <div className="card-head">
-              <h3>{info ? exerciseLabel(info) : 'Unknown exercise'}</h3>
+              <div className="ex-title">
+                <h3>{info ? exerciseLabel(info) : 'Unknown exercise'}</h3>
+                {info && <InfoButton label={exerciseLabel(info)} onClick={() => setInfoIdx(i)} />}
+              </div>
               <div className="row gap-s">
                 <button className="icon-btn" disabled={i === 0} aria-label="Move up"
                   onClick={() => edit((x) => x.exercises.splice(i - 1, 0, ...x.exercises.splice(i, 1)))}>↑</button>
@@ -124,6 +129,13 @@ export default function RoutineEditor({ id }: { id: string }) {
             });
             setPicking(false);
           }}
+        />
+      )}
+      {infoIdx !== null && r.exercises[infoIdx] && (
+        <ExerciseInfo
+          exerciseId={r.exercises[infoIdx].exerciseId}
+          onClose={() => setInfoIdx(null)}
+          onSwap={(id) => edit((x) => void (x.exercises[infoIdx].exerciseId = id))}
         />
       )}
     </div>

@@ -5,6 +5,7 @@ import { exerciseLabel } from '../exercises';
 import { fmtClock, fmtDate, fmtVolume, fmtWeight, round, toDisplay } from '../utils';
 import { LineChart } from '../components/Charts';
 import { Empty, nav, Stat } from '../components/ui';
+import { ExerciseInfo, InfoButton } from '../components/ExerciseInfo';
 
 type Metric = 'bestE1rm' | 'heaviest' | 'volume' | 'bestReps' | 'totalReps';
 
@@ -17,6 +18,7 @@ export default function ExerciseDetail({ id }: { id: string }) {
   const bw = ex?.kind === 'bodyweight' || timed;
   const [metric, setMetric] = useState<Metric>(bw ? 'bestReps' : 'bestE1rm');
   const [range, setRange] = useState<number>(0);
+  const [showInfo, setShowInfo] = useState(false);
 
   // Best weight achieved for each rep count
   const repRecords = useMemo(() => {
@@ -67,7 +69,10 @@ export default function ExerciseDetail({ id }: { id: string }) {
           ← Back
         </button>
       </header>
-      <h1 className="detail-title">{exerciseLabel(ex)}</h1>
+      <div className="ex-title">
+        <h1 className="detail-title">{exerciseLabel(ex)}</h1>
+        <InfoButton label={exerciseLabel(ex)} onClick={() => setShowInfo(true)} />
+      </div>
       <p className="muted">
         {ex.muscle} · {ex.equipment}
         {ex.custom ? ' · Custom' : ''}
@@ -179,6 +184,7 @@ export default function ExerciseDetail({ id }: { id: string }) {
           Delete custom exercise
         </button>
       )}
+      {showInfo && <ExerciseInfo exerciseId={ex.id} onClose={() => setShowInfo(false)} />}
     </div>
   );
 }

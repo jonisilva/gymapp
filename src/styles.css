@@ -341,3 +341,36 @@ details summary { cursor: pointer; }
   .routine-fields { grid-template-columns: 60px 1fr; }
   .routine-fields .field:last-child { grid-column: 1 / -1; }
 }
+
+/* Exercise info ("i") button and popup */
+.ex-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ex-title h1, .ex-title h3 { margin: 0; }
+.info-btn {
+  flex: none; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-grid; place-items: center;
+  border: 1.5px solid var(--muted); color: var(--muted);
+  font: italic 700 13px/1 Georgia, 'Times New Roman', serif;
+}
+.info-btn:hover, .info-btn:focus-visible { border-color: var(--accent-ink); color: var(--accent-ink); }
+.info-back { align-self: flex-start; }
+.info-section { display: flex; flex-direction: column; gap: 8px; }
+.info-section h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0; }
+.media-links { display: flex; flex-direction: column; gap: 6px; }
+.media-link {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+  color: var(--text); text-decoration: none;
+}
+.media-link:hover { border-color: var(--accent-ink); }
+.media-icon { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--accent); color: var(--on-accent); font-size: 16px; flex: none; }
+.media-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.media-text small { color: var(--muted); font-size: 12.5px; }
+.media-go { color: var(--muted); }
+.tiny { font-size: 11.5px; margin: 0; }
+.alt-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.alt-list li { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.alt-list li:last-child { border-bottom: 0; }
+.alt-name { flex: 1; min-width: 0; display: flex; flex-direction: column; text-align: left; color: var(--text); }
+.alt-name strong { font-size: 14.5px; }
+.alt-name small { color: var(--muted); font-size: 12px; }
+.alt-list .icon-btn { text-decoration: none; font-size: 13px; }

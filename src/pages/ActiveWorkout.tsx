@@ -18,6 +18,7 @@ import {
 } from '../utils';
 import { Empty, Menu, nav, NumInput, TimeInput, useNow } from '../components/ui';
 import { ExercisePicker } from '../components/ExercisePicker';
+import { ExerciseInfo, InfoButton } from '../components/ExerciseInfo';
 import { useStartWorkout } from './Home';
 
 const NEXT_TYPE: Record<SetType, SetType> = { normal: 'warmup', warmup: 'drop', drop: 'failure', failure: 'normal' };
@@ -30,6 +31,7 @@ export default function ActiveWorkout() {
   const unit = data.settings.unit;
   const now = useNow(1000);
   const [picker, setPicker] = useState<null | { replace?: string }>(null);
+  const [infoFor, setInfoFor] = useState<null | { rowId: string; exerciseId: string }>(null);
   const prev = useMemo(() => lastSetsByExercise(history, a?.editingId), [history, a?.editingId]);
 
   if (!a) {
@@ -152,9 +154,14 @@ export default function ActiveWorkout() {
         return (
           <div key={ex.id} className="card ex-card">
             <div className="card-head">
-              <button className="ex-name" onClick={() => nav('/exercises/' + ex.exerciseId)}>
-                {info ? exerciseLabel(info) : 'Unknown exercise'}
-              </button>
+              <div className="ex-title">
+                <button className="ex-name" onClick={() => nav('/exercises/' + ex.exerciseId)}>
+                  {info ? exerciseLabel(info) : 'Unknown exercise'}
+                </button>
+                {info && (
+                  <InfoButton label={exerciseLabel(info)} onClick={() => setInfoFor({ rowId: ex.id, exerciseId: ex.exerciseId })} />
+                )}
+              </div>
               <Menu
                 items={[
                   ...(exIndex > 0
@@ -353,6 +360,18 @@ export default function ActiveWorkout() {
         {a.editingId ? 'Discard changes' : 'Discard workout'}
       </button>
 
+      {infoFor && (
+        <ExerciseInfo
+          exerciseId={infoFor.exerciseId}
+          onClose={() => setInfoFor(null)}
+          onSwap={(id) =>
+            updateActive((w) => {
+              const x = w.exercises.find((e) => e.id === infoFor.rowId);
+              if (x) x.exerciseId = id;
+            })
+          }
+        />
+      )}
       {picker && <ExercisePicker multi={!picker.replace} onClose={() => setPicker(null)} onPick={addExercises} />}
     </div>
   );
